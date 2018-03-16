@@ -1,0 +1,113 @@
+.Gallery-section {
+
+  &__content {
+    text-align: center;
+    height: 575px;
+  }
+
+  &__heading {
+    font-family: "AlegreyaBold", serif;
+    font-size: 42px;
+    color: @footer-link-color;
+    margin-bottom: 15px;
+    margin-top: 95px;
+  }
+
+  &__subheading {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: @recipe-heading-color;
+  }
+
+  &__p {
+    font-family: "ProximaNovaRegular", sans-serif;
+    font-size: 14px;
+    color: @footer-link-color;
+    margin-top: @header-height;
+    letter-spacing: 1px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .Gallery-section {
+    &__p {
+      letter-spacing: normal;
+    }
+  }
+}
+
+@media (max-width: 990px) {
+ .Gallery-section {
+
+   &__heading {
+     font-size: 50px;
+   }
+
+   &__subheading {
+     font-size: 18px;
+   }
+
+   &__p {
+     font-size: 18px;
+     line-height: 30px;
+     letter-spacing: 1px;
+   }
+ }
+}
+
+@media (max-width: 767px) {
+  .Gallery-section {
+    &__content {
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 570px) {
+  .Gallery-section {
+    &__p {
+      letter-spacing: 0px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Gallery-section {
+    &__p {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+    .Gallery-section {
+      &__heading {
+        font-size: 45px;
+      }
+
+      &__subheading {
+        font-size: 14px;
+      }
+
+      &__p {
+        font-size: 12px;
+        line-height: 25px;
+        letter-spacing: normal;
+      }
+    }
+}
+
+@media (max-width: 320px) {
+  .Gallery-section {
+    &__p {
+      font-size: 15px;
+      line-height: 25px;
+      letter-spacing: normal;
+      padding: 0 15px;
+      margin-top: 55px;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gustoso Bakery offers a wide range of homemade, daily baked, fresh and tasty pastries.">
+    <meta name="keywords" content="bakery, fresh bread, daily baked pastries, fresh and tasty pastries, tasty sandwiches, homemade cakes, homemade pastries">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gustoso Backery - Registration and login</title>
+    <link rel="stylesheet" href="/css/vendor.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <div class="container-account">
+        <form class="signUp" name="signUp">
+            <h3>Create Your Account</h3>
+            <input name="FirstName" class="w100" type="text" placeholder="Insert First name" reqired autocomplete='off' />
+            <input name="LastName" class="w100" type="text" placeholder="Insert Last name" reqired autocomplete='off' />
+            <input name="Email" class="w100" type="email" placeholder="Insert eMail" reqired autocomplete='off' />
+            <input name="Phone" class="w100" type="text" placeholder="Insert Phone" reqired autocomplete='off' />
+            <input name="Password" type="password" placeholder="Insert Password" reqired />
+            <input name="PasswordConfirm" type="password" placeholder="Verify Password" reqired />
+            <button class="form-btn sx log-in" type="button">Log In</button>
+            <button class="form-btn dx" type="submit">Sign Up</button>
+        </form>
+        <form class="signIn" name="signIn">
+            <h3>Welcome</br>Back !</h3>
+            <input name="Login" type="email" placeholder="Insert eMail" autocomplete='off' reqired />
+            <input name="Password" type="password" placeholder="Insert Password" reqired />
+            <button class="form-btn sx back" type="button">Back</button>
+            <button class="form-btn dx" type="submit">Log In</button>
+        </form>
+    </div>
+    <script src="/js/vendor.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+.Social-networks-menu {
+  width: 20%;
+  float: right;
+  display: inline-block;
+  padding: 0 35px;
+
+  &__list {
+    .u-general-list-styles;
+    width: 100%;
+    display: inline-block;
+    float: right;
+    height: @header-height;
+    text-align: justify;
+  }
+
+  &__item {
+    display: inline-block;
+    height: @header-height;
+  }
+
+  &__link {
+    color: @links-color;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: @header-height;
+    display: inline-block;
+    transition: transform linear .3s;
+
+    &:hover,
+    &:focus,
+    &.is-active {
+      color: darken(#f3f1e9, 10%);
+      text-decoration: none;
+      transform: scale(2.1);
+    }
+  }
+}
+
+
+@media (max-width: 992px) {
+  .Social-networks-menu {
+    width: 15%;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 986px) {
+  .Social-networks-menu {
+    padding: 0;
+    width: 15%;
+  }
+}
+
+@media (max-width: 865px) {
+  .Social-networks-menu {
+    width: 15%;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .Social-networks-menu  {
+    width: 10%;
+  }
+}
+
+@media (max-width: 780px) {
+  .Social-networks-menu  {
+    width: 10%;
+    padding: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .Social-networks-menu {
+    padding: 0;
+    width: 100%;
+    background: rgba(72,72,68, .9);
+
+    &__list {
+      background-color: @header-background;
+      display: inline-block;
+      width: 100%;
+      padding: 0 100px;
+    }
+
+    &__item {
+      display: inline-block;
+    }
+
+    &__link {
+      display: inline-block;
+      width: 60px;
+      text-align: center;
+
+      &:hover,
+      &:focus,
+      &.is-active {
+        background-color: darken(rgba(72,72,68, 0.8), 10%);
+        transform: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .Social-networks-menu {
+
+    &__list {
+      padding: 0 70px;
+    }
+
+    &__link {
+      width: 30px;
+    }
+
+    &__subheader {
+      letter-spacing: 3px;
+    }
+  }
+}
+
+@media (max-width: 400px)  {
+  .Social-networks-menu {
+
+    &__list {
+      padding: 0 30px;
+    }
+
+    &__link {
+      width: 30px;
+    }
+
+    &__subheader {
+      letter-spacing: 3px;
+    }
+  }
+}
+
+@media (max-width: 320px)  {
+
+
+}

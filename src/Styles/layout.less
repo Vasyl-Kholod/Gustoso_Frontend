@@ -1,0 +1,480 @@
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  background-color: @footer-bg-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.header {
+  .u-clearfix;
+  background-color: @header-background;
+  color: @links-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: @header-height;
+  padding: 0;
+  margin: 0;
+  z-index: 10000;
+  transition: all 0.2s ease-in-out;
+}
+
+.scrolled {
+  background: rgb(72,72,68);
+}
+
+.content-container {
+  max-width: @content-width;
+  margin: 0 auto;
+  padding: 0 15px;
+  .u-clearfix;
+}
+
+
+.logo-container {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+.nav-container {
+  width: 80%;
+  float: right;
+  font-size: 0;
+}
+
+.main-content {
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.hero-unit-wrapper {
+  background-image: url(/Images/hero-large.png);
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.Hero-section {
+  width: 100%;
+  min-height: 900px;
+  position: relative;
+  background-image: radial-gradient( circle, #564f4c -12%, transparent 50% );
+}
+
+.art-of-cakes-wrapper {
+  min-height: 760px;
+  background-image: url(/Images/img_texture.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  border-top: 10px solid @links-color;
+
+  &:before {
+    .u-general-pseudo-element-styles;
+    width: 80px;
+    height: 80px;
+    background-color: @links-color;
+    border-radius: 50%;
+    top: -40px;
+    left: 50%;
+    margin-left: -40px;
+  }
+
+  &:after {
+    .u-general-pseudo-element-styles;
+    background: url(/Images/bread.png) no-repeat;
+    width: 110px;
+    height: 110px;
+    top: -55px;
+    left: 50%;
+    margin-left: -55px;
+  }
+}
+
+.carousel-wrapper {
+  min-height: 760px;
+  background-image: url(/Images/mispasta.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.menu-and-price-wrapper {
+  min-height: 760px;
+  background-image: url(/Images/placeholder-breakfast.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}
+
+.recipes-wrapper {
+  min-height: 760px;
+  background: @footer-bg-color;
+  z-index: -1;
+}
+
+.Recipes-header {
+  text-align: center;
+  position: relative;
+  padding-top: 100px;
+
+  &:before {
+    .u-general-pseudo-element-styles;
+    background-image: url(/Images/wind-weel.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 50%;
+    margin-left: -70px;
+    top: 10%;
+    width: 145px;
+    height: 145px;
+    z-index: 0;
+  }
+  &__heading {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 48px;
+    color: @footer-link-color;
+    line-height: 30px;
+    position: relative;
+  }
+
+  &__subheading {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 14px;
+    color: #a47d5e;
+    text-transform: uppercase;
+    line-height: 30px;
+    letter-spacing: 1px;
+    position: relative;
+  }
+}
+
+.Contact-us-section {
+  background-color: @footer-bg-color;
+  min-height: 100%;
+  padding: 0 30px @header-height;
+}
+
+.parallax-window {
+  min-height: 400px;
+  background-image: url(/Images/apple-roses.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+
+  &__heading {
+    font-family: AlegreyaBold,sans-serif;
+    font-size: 5em;
+    text-transform: uppercase;
+    padding: 160px 0 100px;
+    margin: 0;
+    color: @links-color;
+    text-shadow: 1px 2px 5px #000;
+  }
+}
+
+.parallax-menu-window {
+  min-height: 400px;
+  background-image: url(/Images/menu.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+
+  &__heading {
+    font-family: AlegreyaBold,sans-serif;
+    font-size: 4em;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 145px 0 100px;
+    color: @links-color;
+    text-shadow: 1px 2px 5px #000;
+  }
+}
+
+.parallax-price-window {
+  min-height: 400px;
+  background-image: url(/Images/slideshowImage_715.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+fieldset {
+  margin-top: 15px;
+}
+
+legend {
+  border-bottom: none;
+  font-family: "AlegreyaRegular", sans-serif;
+  font-size: 25px;
+  color: @recipe-heading-color;
+}
+
+.get-in-touch {
+  text-align: center;
+  text-transform: capitalize;
+  position: relative;
+  font-size: 35px;
+  color: #a47d5e;
+  font-family: "AlegreyaRegular", sans-serif;
+  margin-top: 35px;
+  margin-bottom: 20px;
+
+  &:after {
+    .u-general-pseudo-element-styles;
+    width: 350px;
+    height: 350px;
+    background-image: url(/Images/wind-weel.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: 70%;
+    top: 220%;
+  }
+}
+
+.get-in-touch-message {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "ProximaNovaRegular", sans-serif;
+  font-size: 16px;
+  padding: 0 20px;
+}
+
+input.error,
+textarea.error,
+input.error:focus,
+textarea.error:focus {
+  border: 1px solid red;
+  box-shadow: 0 0 10px #F66C6C;
+}
+
+label.error {
+  color: #A30A0A;
+  font-family: "ProximaNovaRegular", sans-serif;
+}
+
+.map-container iframe{
+  pointer-events: none;
+  position: relative;
+}
+
+.map-container iframe.clicked {
+  pointer-events: auto;
+}
+
+.what-we-offer {
+  font-family: "AlegreyaRegular", sans-serif;
+  color: @links-color;
+  position: relative;
+  display: inline-block;
+  font-size: 25px;
+  letter-spacing: 3px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -65%;
+    width: 100px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+    border-bottom: 2px solid #fff;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -65%;
+    width: 100px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+    border-bottom: 2px solid #fff;
+  }
+}
+
+.our-menu {
+  display: block;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+.price-table {
+  margin-bottom: 30px;
+}
+
+#slider-prev {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  top: 50%;
+  left: 0;
+  position: absolute;
+  margin-top: -20px;
+}
+
+#slider-next {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  top: 50%;
+  right: 150px;
+  position: absolute;
+  margin-top: -20px;
+}
+
+.footer {
+  height: 240px;
+  background-color: @footer-bg-color;
+  width: 100%;
+  position: relative;
+  clear: both;
+}
+
+.weibo-link {
+  background-color: #985f0d;
+}
+
+.jssocials-shares {
+  text-align: center;
+}
+
+.tooltip-container {
+  background-color: rgb(171,181,142);
+  color: #fff;
+  display: inline-block;
+  padding: 0.5em 1em;
+  position: fixed;
+  right: auto;
+  z-index: 100000;
+  max-width: 680px;
+}
+
+.tooltip-container__arrow {
+  background-color: rgb(171,181,142);
+  position: fixed;
+  z-index: 100000;
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1200px) {
+  .content-container {
+    max-width: 1170px;
+  }
+}
+
+@media (max-width: 992px) {
+  .content-container {
+    max-width: 970px;
+  }
+
+  .recipes-content {
+    padding-bottom: 100px;
+  }
+
+  #slider-next {
+    right: 55px;
+  }
+}
+
+@media (max-width: 850px) {
+  .logo-container {
+    width: 15%;
+  }
+
+  .nav-container {
+    width: 85%;
+  }
+}
+
+@media (max-width: 870px) {
+  #slider-next {
+    right: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    background: rgba(72,72,68, .9);
+  }
+
+  .scrolled {
+    background: rgb(72,72,68);
+  }
+
+  .logo-container {
+    width: 30%;
+  }
+
+  .nav-container {
+    width: 70%;
+    margin-right: -15px;
+  }
+
+  .Contact-us-section {
+    padding: 0;
+  }
+
+  #slider-next {
+    right: 0;
+  }
+}
+
+@media (max-width: 660px) {
+
+}
+
+@media (max-width: 375px) {
+  .Recipes-header {
+    padding-top: 65px;
+
+    &__heading,
+    &__subheading {
+      line-height: 48px;
+    }
+  }
+
+  .logo-container {
+    width: 33%;
+  }
+}
+
+@media (max-width: 345px) {
+  .logo-container {
+    width: 34%;
+  }
+}
+
+@media (max-width: 320px) {
+  .parallax-window {
+
+    &__heading {
+      font-size: 4em;
+    }
+  }
+}

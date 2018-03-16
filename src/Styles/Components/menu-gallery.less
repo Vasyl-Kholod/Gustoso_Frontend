@@ -1,0 +1,57 @@
+hr {
+  border-top: 1px solid #DBDBDB;
+}
+
+.category-tile {
+  position: relative;
+  border: 2px solid @links-color;
+  overflow: hidden;
+  height: 300px;
+  margin: 0 auto 40px;
+  transition: box-shadow linear .3s;
+  transition: transform linear .3s;
+}
+.category-tile span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 20%;
+  text-align: center;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  background-color: #000;
+  color: @links-color;
+  opacity: .6;
+  padding: 20px 10px;
+}
+
+.category-tile:hover {
+  box-shadow:  2px 2px 30px #ccc;
+  transform: scale(1.1);
+}
+
+.menu-categories-link {
+  display: inline-block;
+  width: 100%;
+}
+
+.menu-categories-img {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  min-width: 100%;
+}
+#menu-categories-title,
+#menu-categories-title2 {
+  font-family: "ScriptinaRegular", sans-serif;
+  color: @recipe-heading-color;
+  font-size: 45px;
+  padding-bottom: 30px;
+}
+#menu-categories-title + div,
+#menu-categories-title2 + div {
+  margin-bottom: 50px;
+  font-family: "ProximaNovaRegular", sans-serif;
+  font-size: 18px;
+}

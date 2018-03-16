@@ -1,0 +1,225 @@
+.Recipes-right-part {
+  .u-vertical-aligner;
+
+  &__content {
+    width: 100%;
+
+    text-align: right;
+    position: relative;
+  }
+
+  &__image {
+    padding-top: @header-height;
+    margin: 0 auto;
+    width: 85%;
+    display: block;
+
+  }
+
+  &__link {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    border: 10px solid @links-color;
+    box-shadow: 0 10px 25px #e6dfc5;
+  }
+
+  &__prep-time {
+    height:600px;
+    position: absolute;
+    width: 25%;
+    top: 0;
+    left: 67%;
+    box-shadow: 0px 2px 5px #e6dfc5;
+  }
+
+  &__prep {
+    width: 100%;
+    height: 33.3%;
+    background-color: @links-color;
+    opacity: .8;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 45px 0;
+
+
+    & > * {
+      display: block;
+    }
+  }
+
+  .heading {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 18px;
+    color: @recipe-heading-color;
+  }
+
+  .time {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 60px;
+    color: @footer-link-color;
+  }
+
+  .time-brown {
+    color: #dfc691;
+  }
+
+  .mins {
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 18px;
+    text-transform: lowercase;
+    color: #979285;
+  }
+
+  &__cook {
+    width: 100%;
+    height: 33.3%;
+    background-color: @links-color;
+    opacity: .8;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 45px 0;
+
+    & > * {
+      display: block;
+    }
+  }
+
+  &__ready-in {
+    width: 100%;
+    height: 33.3%;
+    background-image: url(/Images/bg.png);
+    //opacity: .8;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 45px 0;
+
+    & > * {
+      display: block;
+    }
+  }
+
+  &__button {
+    position: absolute;
+    top: 93%;
+    left: 5%;
+    display: table-cell;
+    vertical-align: middle;
+    width: 170px;
+    height: 60px;
+    background-color: @links-color;
+    border: 1px dashed #dfc691;
+    transition: background-color .2s linear;
+  }
+
+  &__btn {
+    color: #dfc691;
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 18px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 100%;
+    .u-vertical-aligner;
+
+    &:hover {
+      text-decoration: none;
+      background-color: #dfc691;
+      color: @links-color;
+    }
+
+    &:active,
+    &:focus {
+      background-color: #dfc691;
+      text-decoration: none;
+      color: @links-color;
+      outline-color: #dfc691;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .Recipes-right-part {
+
+    &__prep-time {
+      height: 500px;
+      top: 10px;
+    }
+
+    &__prep,
+    &__cook,
+    &__ready-in {
+      padding: 15px 0;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .Recipes-right-part {
+
+    &__prep-time {
+      height: 450px;
+    }
+
+    .time {
+      font-size: 50px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .Recipes-right-part {
+
+    &__prep-time {
+      height: 400px;
+    }
+
+    .time {
+      font-size: 40px;
+    }
+
+    .heading {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .Recipes-right-part {
+
+    &__prep-time {
+      height: 350px;
+    }
+
+    .time {
+      font-size: 35px;
+    }
+
+    .heading {
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .Recipes-right-part {
+    &__content {
+      padding-top: @header-height - 50px;
+      text-align: center;
+    }
+
+    &__prep-time {
+      display: none;
+    }
+
+    &__button {
+      left: 50%;
+      margin-left: -85px;
+    }
+  }
+}

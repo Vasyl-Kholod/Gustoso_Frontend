@@ -1,0 +1,125 @@
+.Hero-section {
+  &__row-wrapper {
+    text-align: center;
+    position: relative;
+  }
+
+  &__header {
+    margin: 255px 0 70px;
+    font-size: 92px;
+    font-family: "PlayfairDisplayBold", serif;
+    color: #fff;
+    letter-spacing: 4px;
+    position: relative;
+    padding-bottom: 60px;
+    text-shadow: 1px 0 1px #424141;
+
+    &:after {
+      .u-general-pseudo-element-styles;
+      width: 190px;
+      height: 20px;
+      background: url(/Images/dashed_line.png) no-repeat;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      top: 175px;
+      //box-shadow: 10px 20px 300px 30px #000000;
+    }
+  }
+
+  &__subheader {
+    font-size: 24px;
+    font-family: "ProximaNovaRegular", sans-serif;
+    color: @links-color;
+    letter-spacing: 5px;
+    line-height: 36px;
+    margin-bottom: 65px;
+  }
+
+  &__btn {
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px dashed #9e9c93;
+    background-color: @header-background;
+  }
+
+  &__button {
+    width: 100%;
+    height: 100%;
+    font-family: "AlegreyaBold", sans-serif;
+    font-size: 14px;
+    color: @links-color;
+    text-transform: uppercase;
+    line-height: 24px;
+    letter-spacing: 4px;
+    z-index: 222;
+    .u-vertical-aligner;
+
+    &:hover {
+      background: rgba(72,72,68, 0.8);
+      cursor: pointer;
+      color: @links-color;
+      text-decoration: none;
+    }
+
+    &:active {
+      background: rgba(72,72,68, 0.8);
+      color: @links-color;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .Hero-section {
+    &__header {
+      font-size: 80px;
+    }
+
+    &__subheader {
+      letter-spacing: 4px;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .Hero-section {
+    &__header {
+      font-size: 70px;
+    }
+
+    &__subheader {
+      letter-spacing: 4px;
+    }
+  }
+}
+
+@media (max-width: 400px)  {
+  .Hero-section {
+    &__header {
+      font-size: 60px;
+      margin-top: 150px;
+    }
+
+    &__subheader {
+      letter-spacing: 3px;
+    }
+  }
+
+}
+
+@media (max-width: 320px)  {
+  .Hero-section {
+    &__header {
+      font-size: 50px;
+      margin-top: 150px;
+    }
+
+    &__subheader {
+      letter-spacing: 2px;
+      font-size: 20px;
+    }
+  }
+}
