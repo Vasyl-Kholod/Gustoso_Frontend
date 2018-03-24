@@ -11,6 +11,8 @@ $(document).ready(function () {
     initSlider();
     initEvents();
 
+    $('.timepicker-input').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });    
+
     $('g.reservation-table').mouseover(function (event) {
         var tooltipContainer = document.getElementById('tooltip-container');
         tooltipContainer.style.display = 'inline-block';
@@ -181,10 +183,10 @@ function initValidator() {
                 }
             }
             $.ajax(settings).done(function (response) {
-                toastr.success("Повідомлення успішно надіслане");
+                toastr.success("Message sent successfully.");
                 clearFormInputs($("form[name='contact-form']"));
             }).fail(function (xhr) {
-                toastr.error("Виникли помилки під час надсилання даних!");
+                toastr.error("Errors occurred while sending data!");
             });
         }
     });
@@ -208,7 +210,7 @@ function initValidator() {
             toastr.success(response);
         }).fail(function (xhr) {
             if (xhr.status === 400) {
-                toastr.error("Помилка реєстрації! Будь ласка, введіть валідні дані.");
+                toastr.error("Registration failed! Please enter valid information.");
                 return;
             }
             toastr.error(xhr.responseText);
@@ -230,7 +232,7 @@ function initValidator() {
             "data": JSON.stringify(formToObject("form.signIn"))
         }
         $.ajax(settings).done(function (response) {
-            toastr.success("Вітаємо! Ви успішно авторизувалися.");
+            toastr.success("Congratulations! You are successfully authorized.");
             localStorage.setItem("Token", response.Token);
             localStorage.setItem("ExpirationTime", response.ExpirationTime);
             setTimeout(function () {
@@ -242,7 +244,7 @@ function initValidator() {
                 toastr.error(xhr.responseText);
                 return;
             }
-            toastr.error("Виникли помилки під час авторизації!");
+            toastr.error("Error occured during authorization!");
         });
     });
 };
@@ -420,9 +422,9 @@ function initStarRating() {
                 return this.each(function () {
                     var data;
 
-                    data = $(this).data("star-rating");
+                    data = $(this).data("data-rating");
                     if (!data) {
-                        $(this).data("star-rating", (data = new Starrr($(this), option)));
+                        $(this).data("data-rating", (data = new Starrr($(this), option)));
                     }
                     if (typeof option === "string") {
                         return data[option].apply(data, args);
@@ -433,18 +435,62 @@ function initStarRating() {
     })(window.jQuery, window);
 
     $(function () {
-        return $(".starrr").starrr();
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:54334/api/Rating",
+            "method": "GET",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "beforeSend": function (xhr) {
+                var Token = localStorage.getItem("Token");
+                xhr.setRequestHeader("Authorization", "Bearer " + Token);
+            }
+        }
+        $.ajax(settings)
+        .done(function (response) {
+            for(var i = 0; i < response.length; i++) {
+                $('#' + response[i].slideName).attr('data-rating', response[i].ratingValue);
+            }
+            return $(".starrr").starrr();            
+        });
     });
 
     var slideIds = [
-        "#stars",
-        "#stars1",
-        "#stars2"
+        "#stars_1",
+        "#stars_2",
+        "#stars_3"
     ];
 
     for (var i = 0; i < slideIds.length; i++) {
         $(slideIds[i]).on("starrr:change", function (e, value) {
-            $("#count").html(value);
+            var objToServer = {
+                slideName: e.currentTarget.getAttribute('id'),
+                ratingValue: value
+            };       
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:54334/api/Rating",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                "data": JSON.stringify(objToServer),
+                "beforeSend": function (xhr) {
+                    var Token = localStorage.getItem("Token");
+                    xhr.setRequestHeader("Authorization", "Bearer " + Token);
+                }
+            }
+            $.ajax(settings)
+            .done(function (response) {
+                toastr.success(response);
+            }).fail(function (response) {
+                toastr.error(response.statusText);
+            });
         });
     }
 }

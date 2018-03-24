@@ -61,7 +61,10 @@ gulp.task("js:vendor", function() {
         "src/Resources/scrollup/jquery.scrollUp.js",
         "node_modules/toastr/build/toastr.min.js",
         "node_modules/datatables.net/js/jquery.dataTables.js",
-        "node_modules/jssocials/dist/jssocials.js"
+        "node_modules/jssocials/dist/jssocials.js",
+        "src/js/calendar.js",
+        "src/js/moment.js",
+        "src/js/bootstrap-material-datetimepicker.js"
     ])
         .pipe(concat("vendor.js"))
         .pipe(gulpIf(!isDevelopment, uglify()))
