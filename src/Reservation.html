@@ -936,10 +936,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input type="text" class="timepicker-input" placeholder="Select the time...">
-                        </div>
+                    <div class="row reservation-form">
+                        <form id="reservation-form" name="reservation-form">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="name" class="Contact-form__label control-label">Your name</label>
+                                    <input id="name" class="Contact-form__input form-control" type="text" placeholder="Enter your name *" minlength="2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="email" class="Contact-form__label control-label">Your email</label>
+                                    <input id="email" type="email" class="Contact-form__input form-control" placeholder="Enter your email *" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="phone" class="Contact-form__label control-label">Your phone</label>
+                                    <input id="phone" type="text" class="Contact-form__input form-control" placeholder="Enter your phone *" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="time" class="Contact-form__label control-label">Time</label>
+                                    <input id="time" type="text" class="Contact-form__input form-control timepicker-input" placeholder="Select the time *" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group btn-group">
+                                    <button type="submit" id="submit-btn" class="Contact-form__button btn btn-default btn-save">Create reservation</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -948,7 +976,7 @@
             </div>
         </div>
     </div>
-    <script src="/js/vendor.js"></script> 
+    <script src="/js/vendor.js"></script>
     <script src="/js/main.js"></script>
 </body>
 

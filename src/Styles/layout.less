@@ -382,9 +382,21 @@ label.error {
   transform: rotate(45deg);
 }
 
-input.timepicker-input {
+input.timepicker-input,
+input.reservation-input {
   width: 100%;
 }
+
+.btn-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .btn-save {
+    width: auto !important;
+    margin: 0 !important;
+  }
+} 
 
 @media (max-width: 1200px) {
   .content-container {
@@ -436,8 +448,12 @@ input.timepicker-input {
   }
 
   .nav-container {
-    width: 70%;
-    margin-right: -15px;
+    width: 100%;
+    float: none;
+
+    .navbar-collapse {
+      width: 100%;
+    }
   }
 
   .Contact-us-section {

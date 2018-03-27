@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gustoso Bakery offers a wide range of homemade, daily baked, fresh and tasty pastries.">
+    <meta name="keywords" content="bakery, fresh bread, daily baked pastries, fresh and tasty pastries, tasty sandwiches, homemade cakes, homemade pastries">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gustoso Backery - Admin</title>
+    <link rel="stylesheet" href="../css/vendor.css">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div class="container-admin">
+        <!--     SIDE AREA -->
+        //= TemlatesAdmin/SideArea.html
+        <!--     SIDE AREA -->
+        <div class="mainArea">
+            <!-- BEGIN NAV -->
+            //= TemlatesAdmin/Header.html
+            <!-- END NAV -->
+            <!-- CONTAINER  -->
+            <div class="mainContent">
+                <!-- LIST FORM -->
+                //= TemlatesAdmin/FilterGroup.html
+                <form action="" method="GET" name="listForm" class="form scrollX">
+                    <div class="formHeader row-admin">
+                        <h2 class="text-1 fl">User List</h2>
+                        <div class="fr">
+                            <button type="button" class="btnSave bg-1 text-fff text-bold fr">SAVE</button>
+                            <a class="btnAdd fa fa-plus bg-1 text-fff"></a>
+                        </div>
+                    </div>
+                    <div class="table">
+                        <div class="row-admin bg-1">
+                            <div class="cell cell-50 text-center text-fff">ID</div>
+                            <div class="cell cell-100 text-center text-fff">CATEGORY</div>
+                            <div class="cell cell-100 text-fff">IMAGE</div>
+                            <div class="cell cell-100p text-fff">NAME</div>
+                            <div class="cell cell-100 text-center text-fff">
+                                <input type="checkbox" class="checkbox checkAll" name="statusAll" target=".status">
+                            </div>
+                            <div class="cell cell-100 text-center text-fff">EDIT</div>
+                        </div>
+                        <!--   BEGIN LOOP -->
+                        <ul>
+                            <li class="row-admin">
+                                <div class="cell cell-50 text-center">1111</div>
+                                <div class="cell cell-100 text-center">1</div>
+                                <div class="cell cell-100 text-center">
+                                    <a href="">
+                                        <img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50">
+                                    </a>
+                                </div>
+                                <div class="cell cell-100p">
+                                    <a href="">PRODUCT 01</a>
+                                </div>
+                                <div class="cell cell-100 text-center">
+                                    <input type="hidden" class="status" name="status" value="0">
+                                    <input type="checkbox" class="btnSwitch status" name="status">
+                                </div>
+                                <div class="cell cell-100 text-center">
+                                    <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a>
+                                    <a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick='return confirm("Do you really want to remove it ?")'></a>
+                                </div>
+                            </li>
+                            <li class="row-admin">
+                                <div class="cell cell-50 text-center">1111</div>
+                                <div class="cell cell-100 text-center">1</div>
+                                <div class="cell cell-100 text-center">
+                                    <a href="">
+                                        <img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50">
+                                    </a>
+                                </div>
+                                <div class="cell cell-100p">
+                                    <a href="">PRODUCT 01</a>
+                                </div>
+                                <div class="cell cell-100 text-center">
+                                    <input type="hidden" class="status" name="status" value="0">
+                                    <input type="checkbox" class="btnSwitch status" name="status">
+                                </div>
+                                <div class="cell cell-100 text-center">
+                                    <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a>
+                                    <a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm('Do you really want to remove it ?')"></a>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--   END LOOP -->
+                    </div>
+                </form>
+            </div>
+            <!-- END CONTAINER  -->
+        </div>
+    </div>
+    <script src="./js/admin.js"></script>
+</body>
+
+</html>

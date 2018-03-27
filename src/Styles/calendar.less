@@ -33,6 +33,7 @@
   }
   #calendar_content div:hover{
     background-color: #F8F8F8;
+    cursor: pointer;    
   }
   #calendar_content div.blank{
     background-color: #E8E8E8;
@@ -44,6 +45,9 @@
   }
   #calendar_content div.today{
     color: #FFFFFF;
+  }
+  #calendar_content div.active{
+    background-color: rgba(211, 117, 107, 0.5) !important;
   }
   #calendar_header{
     width: 100%;
@@ -70,4 +74,9 @@
     line-height: 51.5714px !important;
     font-size: 25px;
     cursor: pointer !important;
+    user-select: none;    
+  }
+  .not-active {
+    opacity: 0.1;
+    pointer-events: none;
   }

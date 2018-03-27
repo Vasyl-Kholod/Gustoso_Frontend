@@ -13,12 +13,12 @@ var ghPages = require('gulp-gh-pages');
 
 var isDevelopment = false;
 
-gulp.task('deploy', function() {
+gulp.task('deploy', function () {
     return gulp.src('./dist/**/*')
         .pipe(ghPages());
 });
 
-gulp.task("css:own", function() {
+gulp.task("css:own", function () {
     return gulp.src("src/Styles/main.less")
         .pipe(gulpIf(isDevelopment, sourcemaps.init()))
         .pipe(less())
@@ -29,7 +29,18 @@ gulp.task("css:own", function() {
         .pipe(sync.stream());
 });
 
-gulp.task("css:vendor", function() {
+gulp.task("css:admin", function () {
+    return gulp.src("src/Styles/Components/admin.less")
+        .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+        .pipe(less())
+        .pipe(autoprefixer("last 2 versions"))
+        .pipe(nano())
+        .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+        .pipe(gulp.dest("dist/admin/css"))
+        .pipe(sync.stream());
+});
+
+gulp.task("css:vendor", function () {
     return gulp.src([
         "node_modules/bootstrap/dist/css/bootstrap.css",
         "node_modules/font-awesome/css/font-awesome.css",
@@ -44,15 +55,26 @@ gulp.task("css:vendor", function() {
         .pipe(gulp.dest("dist/css"));
 });
 
-gulp.task("js:own", function() {
-    return gulp.src("src/js/main.js")
+gulp.task("js:own", function () {
+    return gulp.src([
+        "src/js/main.js"
+    ])
         .pipe(gulpIf(isDevelopment, sourcemaps.init()))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulpIf(isDevelopment, sourcemaps.write()))
         .pipe(gulp.dest("dist/js"));
 });
 
-gulp.task("js:vendor", function() {
+gulp.task("js:admin", function () {
+    return gulp.src([
+        "src/js/admin.js"
+    ])
+        .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+        .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+        .pipe(gulp.dest("dist/admin/js"));
+});
+
+gulp.task("js:vendor", function () {
     return gulp.src([
         "node_modules/jquery/dist/jquery.js",
         "node_modules/jquery-validation/dist/jquery.validate.js",
@@ -71,7 +93,7 @@ gulp.task("js:vendor", function() {
         .pipe(gulp.dest("dist/js"));
 });
 
-gulp.task("fonts", function() {
+gulp.task("fonts", function () {
     return gulp.src([
         "src/Fonts/**/*.ttf",
         "node_modules/font-awesome/fonts/**"
@@ -79,18 +101,24 @@ gulp.task("fonts", function() {
         .pipe(gulp.dest("dist/Fonts"));
 });
 
-gulp.task("html", function() {
+gulp.task("html:own", function () {
+    return gulp.src("src/admin/*.html")
+        .pipe(rigger())
+        .pipe(gulp.dest("dist/admin"));
+});
+
+gulp.task("html:vendor", function () {
     return gulp.src("src/*.html")
         .pipe(rigger())
         .pipe(gulp.dest("dist"));
 });
 
-gulp.task("json", function() {
+gulp.task("json", function () {
     return gulp.src("src/data.json")
         .pipe(gulp.dest("dist"));
 });
 
-gulp.task("images", function() {
+gulp.task("images", function () {
     return gulp.src([
         "src/Images/**/*.{png,jpg,gif,jpeg,svg}",
         "src/Resources/jquery.bxslider/images/*.{png,gif}",
@@ -110,22 +138,26 @@ gulp.task("images", function() {
         .pipe(gulp.dest("dist/Images"));
 });
 
-gulp.task("css", ["css:own", "css:vendor"]);
-gulp.task("js", ["js:own", "js:vendor"]);
+gulp.task("css", ["css:own", "css:vendor", "css:admin"]);
+gulp.task("js", ["js:own", "js:vendor", "js:admin"]);
+gulp.task("html", ["html:own", "html:vendor"]);
 
-gulp.task("watch", ["build"], function() {
-   sync.init({
-      server: "dist"
-   });
-   gulp.watch("src/Styles/**/*.less", ["css:own"]);
+gulp.task("watch", ["build"], function () {
+    sync.init({
+        server: "dist"
+    });
+    gulp.watch("src/Styles/**/*.less", ["css:own", "css:admin"]);
 
-   gulp.watch("src/js/*.js", ["js:own"]);
-   gulp.watch("dist/js/*.js").on("change", sync.reload);
+    gulp.watch("src/js/*.js", ["js:own"]);
+    gulp.watch("dist/js/*.js").on("change", sync.reload);
 
-   gulp.watch("src/*.html", ["html"]);
-   gulp.watch("dist/*.html", ["html"]).on("change", sync.reload);
+    gulp.watch("src/admin/*.html", ["html:own"]);
+    gulp.watch("dist/admin/*.html", ["html:own"]).on("change", sync.reload);
 
-   gulp.watch("src/data.json", ["json"]);
+    gulp.watch("src/*.html", ["html:vendor"]);
+    gulp.watch("dist/*.html", ["html:vendor"]).on("change", sync.reload);
+
+    gulp.watch("src/data.json", ["json"]);
     gulp.watch("src/data.json", ["json"]).on("change", sync.reload);
 
     gulp.watch("src/Fonts/**/*.ttf", ["fonts"]);
@@ -138,7 +170,3 @@ gulp.task("watch", ["build"], function() {
 
 gulp.task("build", ["html", "css", "js", "fonts", "images", "json"]);
 gulp.task("default", ["build", "watch"]);
-
-
-
-

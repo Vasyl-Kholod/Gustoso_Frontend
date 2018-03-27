@@ -1,17 +1,41 @@
 isAuthorization();
 localStorage = window.localStorage;
+calendarIndex = 0;
+selectedDate = null;
 
 $(document).ready(function () {
     toggleAccountForms();
     removeClassOnResize();
     initStarRating();
+    initReservationFormValidator();
     initValidator();
     initDataTable();
     initScrollUp();
     initSlider();
     initEvents();
+    initHanddleClickByDay();
 
-    $('.timepicker-input').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });    
+    $('.timepicker-input').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });
+    $('i.icon-chevron-left').addClass('not-active');
+
+    $('#calendar_header > i').click(function (e) {
+        if ($(this).hasClass('icon-chevron-right')) {
+            ++calendarIndex;
+            if (calendarIndex === 2) {
+                $('i.icon-chevron-right').addClass('not-active');
+            }
+            $('i.icon-chevron-left').removeClass('not-active');
+        } else {
+            --calendarIndex;
+            if (calendarIndex === 0) {
+                $('i.icon-chevron-left').addClass('not-active');
+            }
+            $('i.icon-chevron-right').removeClass('not-active');
+        }
+        initHanddleClickByDay();
+    })
+
+    
 
     $('g.reservation-table').mouseover(function (event) {
         var tooltipContainer = document.getElementById('tooltip-container');
@@ -53,6 +77,12 @@ $(document).ready(function () {
         tooltipContainer.style.display = 'none';
     });
 
+    $('g.reservation-table').click(function (e) {
+        $('.timepicker-input').val(null);
+        $('.reservation-input').val(null);
+    });
+
+
     //Header change background-color on page scroll
     $(window).on("scroll", function () {
         if ($(window).scrollTop() > 50) {
@@ -89,6 +119,16 @@ $(document).ready(function () {
     });
 });
 
+function initHanddleClickByDay() {
+    $('#calendar_content > div:not(.blank)').click(function (e) {
+        $('#calendar_content > div.active').removeClass('active');
+        $(this).addClass('active');
+        selectedDate = $('#calendar_header > h1').text().split(' ').reverse();
+        selectedDate.push($(this).text());
+        console.log(selectedDate);
+    });
+}
+
 function isAuthorization() {
     var accountHref = "http://localhost:3000/Account.html";
     if (window.location.href !== accountHref) {
@@ -114,6 +154,61 @@ function toggleAccountForms() {
     });
 }
 
+function initReservationFormValidator() {
+    $("form[name='reservation-form']").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2                
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true
+            }            
+        },
+        messages: {
+            name: {
+                required: "Please enter your name",
+                minlength: "Your name is too short"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Please enter your valid email"
+            },
+            phone: {
+                required: "Please provide your phone"
+            }
+        },
+        submitHandler: function (form) {
+            // if (!isValidForm("#contact-form")) return;
+            // var settings = {
+            //     "async": true,
+            //     "crossDomain": true,
+            //     "url": "http://localhost:54334/api/ContactUs",
+            //     "method": "POST",
+            //     "headers": {
+            //         "content-type": "application/json",
+            //         "cache-control": "no-cache"
+            //     },
+            //     "data": JSON.stringify(formToObject("#contact-form")),
+            //     "beforeSend": function (xhr) {
+            //         var Token = localStorage.getItem("Token");
+            //         xhr.setRequestHeader("Authorization", "Bearer " + Token);
+            //     }
+            // }
+            // $.ajax(settings).done(function (response) {
+            //     toastr.success("Message sent successfully.");
+            //     clearFormInputs($("form[name='contact-form']"));
+            // }).fail(function (xhr) {
+            //     toastr.error("Errors occurred while sending data!");
+            // });
+        }
+    });
+}
+
 function initValidator() {
     //form validation plugin
     $("form[name='contact-form']").validate({
@@ -133,13 +228,6 @@ function initValidator() {
             message: {
                 required: true
             },
-            number: {
-                required: true,
-                minlength: 10
-            },
-            date: {
-                required: true
-            }
         },
         messages: {
             name: {
@@ -156,13 +244,6 @@ function initValidator() {
             },
             message: {
                 required: "Please provide your message"
-            },
-            number: {
-                required: "Please, enter your valid phone number",
-                minlength: "Your phone number is to short"
-            },
-            date: {
-                required: "Please, choose convenient date and time for call"
             }
         },
         submitHandler: function (form) {
@@ -450,12 +531,12 @@ function initStarRating() {
             }
         }
         $.ajax(settings)
-        .done(function (response) {
-            for(var i = 0; i < response.length; i++) {
-                $('#' + response[i].slideName).attr('data-rating', response[i].ratingValue);
-            }
-            return $(".starrr").starrr();            
-        });
+            .done(function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    $('#' + response[i].slideName).attr('data-rating', response[i].ratingValue);
+                }
+                return $(".starrr").starrr();
+            });
     });
 
     var slideIds = [
@@ -469,7 +550,7 @@ function initStarRating() {
             var objToServer = {
                 slideName: e.currentTarget.getAttribute('id'),
                 ratingValue: value
-            };       
+            };
             var settings = {
                 "async": true,
                 "crossDomain": true,
@@ -486,11 +567,11 @@ function initStarRating() {
                 }
             }
             $.ajax(settings)
-            .done(function (response) {
-                toastr.success(response);
-            }).fail(function (response) {
-                toastr.error(response.statusText);
-            });
+                .done(function (response) {
+                    toastr.success(response);
+                }).fail(function (response) {
+                    toastr.error(response.statusText);
+                });
         });
     }
 }
