@@ -10,12 +10,18 @@ var sync = require("browser-sync").create();
 var image = require("gulp-image");
 var rigger = require("gulp-rigger");
 var ghPages = require('gulp-gh-pages');
+var clean = require('gulp-clean');
 
 var isDevelopment = false;
 
 gulp.task('deploy', function () {
     return gulp.src('./dist/**/*')
         .pipe(ghPages());
+});
+
+gulp.task('clean', function () {
+    return gulp.src('dist/', {read: false})
+        .pipe(clean());
 });
 
 gulp.task("css:own", function () {
@@ -72,6 +78,15 @@ gulp.task("js:admin", function () {
         .pipe(gulpIf(isDevelopment, sourcemaps.init()))
         .pipe(gulpIf(isDevelopment, sourcemaps.write()))
         .pipe(gulp.dest("dist/admin/js"));
+});
+
+gulp.task("js:serviceWorker", function () {
+    return gulp.src([
+        "src/js/service-worker.js"
+    ])
+        .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+        .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+        .pipe(gulp.dest("dist/"));
 });
 
 gulp.task("js:vendor", function () {
@@ -139,7 +154,7 @@ gulp.task("images", function () {
 });
 
 gulp.task("css", ["css:own", "css:vendor", "css:admin"]);
-gulp.task("js", ["js:own", "js:vendor", "js:admin"]);
+gulp.task("js", ["js:own", "js:vendor", "js:admin", "js:serviceWorker"]);
 gulp.task("html", ["html:own", "html:vendor"]);
 
 gulp.task("watch", ["build"], function () {
@@ -148,7 +163,7 @@ gulp.task("watch", ["build"], function () {
     });
     gulp.watch("src/Styles/**/*.less", ["css:own", "css:admin"]);
 
-    gulp.watch("src/js/*.js", ["js:own"]);
+    gulp.watch("src/js/*.js", ["js:own", "js:admin", "js:serviceWorker"]);
     gulp.watch("dist/js/*.js").on("change", sync.reload);
 
     gulp.watch("src/admin/*.html", ["html:own"]);

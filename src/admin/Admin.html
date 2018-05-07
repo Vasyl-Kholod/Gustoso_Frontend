@@ -27,66 +27,26 @@
                 //= TemlatesAdmin/FilterGroup.html
                 <form action="" method="GET" name="listForm" class="form scrollX">
                     <div class="formHeader row-admin">
-                        <h2 class="text-1 fl">User List</h2>
+                        <h2 class="text-1 fl">Reservation List</h2>
                         <div class="fr">
                             <button type="button" class="btnSave bg-1 text-fff text-bold fr">SAVE</button>
-                            <a class="btnAdd fa fa-plus bg-1 text-fff"></a>
+                            <!-- <a class="btnAdd fa fa-plus bg-1 text-fff"></a> -->
                         </div>
                     </div>
-                    <div class="table">
+                    <div class="table reservation-table">
                         <div class="row-admin bg-1">
                             <div class="cell cell-50 text-center text-fff">ID</div>
-                            <div class="cell cell-100 text-center text-fff">CATEGORY</div>
-                            <div class="cell cell-100 text-fff">IMAGE</div>
-                            <div class="cell cell-100p text-fff">NAME</div>
-                            <div class="cell cell-100 text-center text-fff">
+                            <div class="cell cell-200 text-center text-fff">Name</div>
+                            <div class="cell cell-200 text-center text-fff">Email</div>
+                            <div class="cell cell-200 text-center text-fff">Phone</div>
+                            <div class="cell cell-200 text-center text-fff">Date of Reservation</div>
+                            <!-- <div class="cell cell-150 text-center text-fff">
                                 <input type="checkbox" class="checkbox checkAll" name="statusAll" target=".status">
-                            </div>
-                            <div class="cell cell-100 text-center text-fff">EDIT</div>
+                            </div> -->
+                            <div class="cell cell-200 text-center text-fff">Status</div>
                         </div>
                         <!--   BEGIN LOOP -->
-                        <ul>
-                            <li class="row-admin">
-                                <div class="cell cell-50 text-center">1111</div>
-                                <div class="cell cell-100 text-center">1</div>
-                                <div class="cell cell-100 text-center">
-                                    <a href="">
-                                        <img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50">
-                                    </a>
-                                </div>
-                                <div class="cell cell-100p">
-                                    <a href="">PRODUCT 01</a>
-                                </div>
-                                <div class="cell cell-100 text-center">
-                                    <input type="hidden" class="status" name="status" value="0">
-                                    <input type="checkbox" class="btnSwitch status" name="status">
-                                </div>
-                                <div class="cell cell-100 text-center">
-                                    <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a>
-                                    <a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick='return confirm("Do you really want to remove it ?")'></a>
-                                </div>
-                            </li>
-                            <li class="row-admin">
-                                <div class="cell cell-50 text-center">1111</div>
-                                <div class="cell cell-100 text-center">1</div>
-                                <div class="cell cell-100 text-center">
-                                    <a href="">
-                                        <img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50">
-                                    </a>
-                                </div>
-                                <div class="cell cell-100p">
-                                    <a href="">PRODUCT 01</a>
-                                </div>
-                                <div class="cell cell-100 text-center">
-                                    <input type="hidden" class="status" name="status" value="0">
-                                    <input type="checkbox" class="btnSwitch status" name="status">
-                                </div>
-                                <div class="cell cell-100 text-center">
-                                    <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a>
-                                    <a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm('Do you really want to remove it ?')"></a>
-                                </div>
-                            </li>
-                        </ul>
+                        <ul></ul>
                         <!--   END LOOP -->
                     </div>
                 </form>
@@ -94,6 +54,8 @@
             <!-- END CONTAINER  -->
         </div>
     </div>
+
+    <script src="../js/vendor.js"></script>
     <script src="./js/admin.js"></script>
 </body>
 

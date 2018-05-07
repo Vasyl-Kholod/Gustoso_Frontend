@@ -1,3 +1,5 @@
+isAuthorization();
+
 // ELEMENT
 function elm(x) {
     var target = x.substring(1);
@@ -221,4 +223,111 @@ function extend2(o1, o = []) {
         var result = extend(result, o[i]);
     }
     return result;
+}
+
+
+$(document).ready(function () {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://localhost:54334/api/Reservation",
+        "method": "GET",
+        "headers": {
+            "content-type": "application/json",
+            "cache-control": "no-cache"
+        },
+        "beforeSend": function (xhr) {
+            var Token = localStorage.getItem("Token");
+            xhr.setRequestHeader("Authorization", "Bearer " + Token);
+        }
+    }
+    var request = setInterval(() => {
+        $.ajax(settings).done(function (response) {
+            $('.reservation-table > ul').empty();
+            initReservationTable(response);
+        }).fail(function (xhr) {
+            // toastr.error("Errors occurred while sending data!");
+            // clearInterval(request);
+        });
+    }, 1000)
+});
+
+function logout() {
+    localStorage.removeItem("Token");
+    localStorage.removeItem("ExpirationTime");
+    localStorage.removeItem("Role");
+    window.location = "http://localhost:3000/Account.html";
+}
+
+function initReservationTable(reservations) {
+    var tamplate = `
+    <li class="row-admin" id="reservation-idSelector">
+        <div class="cell cell-50 text-center">idClient</div>
+        <div class="cell cell-200 text-center">name</div>
+        <div class="cell cell-200 text-center">email</div>
+        <div class="cell cell-200 text-center">phone</div>
+        <div class="cell cell-200 text-center">date</div>
+        <!-- <div class="cell cell-150 text-center">
+            <input type="hidden" class="status" name="status" value="0">
+            <input type="checkbox" class="btnSwitch status" name="status">
+        </div> -->
+        <div class="cell cell-200 text-center">
+            <!-- <a class="btnEdit fa fa-pencil bg-1 text-fff"></a> -->
+            <a class="btnRemove bg-1 text-fff btn-accept" onclick='changeStatus(statusId, "false")'>Accept</a>
+            <a class="btnRemove bg-1 text-fff btn-accept" onclick='changeStatus(statusId, "true")'>Reject</a>
+        </div>
+    </li>
+    `;
+
+    reservations.map(function (item) {
+        
+        date = item.dateOfReservation.substring(0, item.dateOfReservation.length - 4);
+        date = date.replace('T', ' ');
+        
+        var resItemTamplate = tamplate.replace('idSelector', item.id)
+            .replace('idClient', item.id)
+            .replace('name', item.clientName)
+            .replace('email', item.clientEmail)
+            .replace('phone', item.clientPhone)
+            .replace('date', moment(date).format('D MMMM YYYY HH:mm'))
+            .replace('statusId', item.id)
+            .replace('statusId', item.id);
+        $('.reservation-table > ul').append(resItemTamplate);
+    });
+}
+
+function changeStatus(id, isCanceled) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `http://localhost:54334/api/Reservation/${id}`,
+        "method": "PUT",
+        "headers": {
+            "content-type": "application/json",
+            "cache-control": "no-cache"
+        },
+        "data": JSON.stringify(isCanceled),
+        "beforeSend": function (xhr) {
+            var Token = localStorage.getItem("Token");
+            xhr.setRequestHeader("Authorization", "Bearer " + Token);
+        }
+    }
+    $.ajax(settings).done(function (response) {
+        $('#reservation-' + id).remove();    
+        $('#reservation-' + id).empty();    
+        toastr.success(response);
+    }).fail(function (xhr) {
+        toastr.error("Errors occurred while sending data!");
+    });
+}
+
+function isAuthorization() {
+    var accountHref = "http://localhost:3000/Account.html";
+    if (window.location.href !== accountHref) {
+        if (!localStorage.getItem("Token") || !localStorage.getItem("Role")) {
+            logout();
+        } else if (localStorage.getItem("Role") && localStorage.getItem("Role") !== "Admin") {
+            logout();
+        }
+    }
 }

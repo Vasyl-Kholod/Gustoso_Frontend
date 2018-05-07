@@ -2,6 +2,7 @@ isAuthorization();
 localStorage = window.localStorage;
 calendarIndex = 0;
 selectedDate = null;
+selectedTable = null;
 
 $(document).ready(function () {
     toggleAccountForms();
@@ -17,6 +18,7 @@ $(document).ready(function () {
 
     $('.timepicker-input').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });
     $('i.icon-chevron-left').addClass('not-active');
+    selectedDate = +$('.today').addClass('active').text();
 
     $('#calendar_header > i').click(function (e) {
         if ($(this).hasClass('icon-chevron-right')) {
@@ -28,14 +30,16 @@ $(document).ready(function () {
         } else {
             --calendarIndex;
             if (calendarIndex === 0) {
+                selectedDate = +$('.today').addClass('active').text();
                 $('i.icon-chevron-left').addClass('not-active');
             }
             $('i.icon-chevron-right').removeClass('not-active');
         }
         initHanddleClickByDay();
-    })
+        markNotActiveDays();
+    });
 
-    
+    markNotActiveDays();
 
     $('g.reservation-table').mouseover(function (event) {
         var tooltipContainer = document.getElementById('tooltip-container');
@@ -80,6 +84,7 @@ $(document).ready(function () {
     $('g.reservation-table').click(function (e) {
         $('.timepicker-input').val(null);
         $('.reservation-input').val(null);
+        selectedTable = +e.currentTarget.getAttribute('number-table');
     });
 
 
@@ -119,21 +124,51 @@ $(document).ready(function () {
     });
 });
 
+function markNotActiveDays() {
+    if (calendarIndex !== 0) return;
+    var activeDay = $('.today').text();
+    var daysContent = $('#calendar_content').children();
+    for (var i = 0; i < daysContent.length; i++) {
+        if (+daysContent[i].innerText < +activeDay) {
+            daysContent[i].classList.add('not-active');
+        }
+    }
+}
+
 function initHanddleClickByDay() {
     $('#calendar_content > div:not(.blank)').click(function (e) {
         $('#calendar_content > div.active').removeClass('active');
         $(this).addClass('active');
         selectedDate = $('#calendar_header > h1').text().split(' ').reverse();
         selectedDate.push($(this).text());
-        console.log(selectedDate);
+        convertStringToIntMonth(selectedDate[1]);
     });
+}
+
+function convertStringToIntMonth(month) {
+    switch (month.toLowerCase()) {
+        case "january": selectedDate[1] = 1; break;
+        case "fabruary": selectedDate[1] = 2; break;
+        case "march": selectedDate[1] = 3; break;
+        case "april": selectedDate[1] = 4; break;
+        case "may": selectedDate[1] = 5; break;
+        case "june": selectedDate[1] = 6; break;
+        case "july": selectedDate[1] = 7; break;
+        case "august": selectedDate[1] = 8; break;
+        case "september": selectedDate[1] = 9; break;
+        case "october": selectedDate[1] = 10; break;
+        case "november": selectedDate[1] = 11; break;
+        case "december": selectedDate[1] = 12; break;
+    }
+    selectedDate[0] = +selectedDate[0];
+    selectedDate[2] = +selectedDate[2];
 }
 
 function isAuthorization() {
     var accountHref = "http://localhost:3000/Account.html";
     if (window.location.href !== accountHref) {
         if (!localStorage.getItem("Token")) {
-            window.location = accountHref;
+            logout();
         }
     }
 }
@@ -159,7 +194,7 @@ function initReservationFormValidator() {
         rules: {
             name: {
                 required: true,
-                minlength: 2                
+                minlength: 2
             },
             email: {
                 required: true,
@@ -167,7 +202,10 @@ function initReservationFormValidator() {
             },
             phone: {
                 required: true
-            }            
+            },
+            time: {
+                required: true
+            }
         },
         messages: {
             name: {
@@ -180,31 +218,48 @@ function initReservationFormValidator() {
             },
             phone: {
                 required: "Please provide your phone"
+            },
+            time: {
+                required: "Please provide your time"
             }
         },
         submitHandler: function (form) {
-            // if (!isValidForm("#contact-form")) return;
-            // var settings = {
-            //     "async": true,
-            //     "crossDomain": true,
-            //     "url": "http://localhost:54334/api/ContactUs",
-            //     "method": "POST",
-            //     "headers": {
-            //         "content-type": "application/json",
-            //         "cache-control": "no-cache"
-            //     },
-            //     "data": JSON.stringify(formToObject("#contact-form")),
-            //     "beforeSend": function (xhr) {
-            //         var Token = localStorage.getItem("Token");
-            //         xhr.setRequestHeader("Authorization", "Bearer " + Token);
-            //     }
-            // }
-            // $.ajax(settings).done(function (response) {
-            //     toastr.success("Message sent successfully.");
-            //     clearFormInputs($("form[name='contact-form']"));
-            // }).fail(function (xhr) {
-            //     toastr.error("Errors occurred while sending data!");
-            // });
+            if (!isValidForm("#reservation-form")) return;
+            var objToServer = formToObject("#reservation-form");
+            var time = objToServer.selectedTime.split(':');
+            delete objToServer.selectedTime;
+            const dateTimeObj = {
+                tableNumber: selectedTable,
+                Year: selectedDate[0],
+                Month: selectedDate[1],
+                Day: selectedDate[2],
+                Hour: +time[0],
+                Minute: +time[1],
+            };
+            Object.assign(objToServer, dateTimeObj);
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:54334/api/Reservation",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                "data": JSON.stringify(objToServer),
+                "beforeSend": function (xhr) {
+                    var Token = localStorage.getItem("Token");
+                    xhr.setRequestHeader("Authorization", "Bearer " + Token);
+                }
+            }
+            $.ajax(settings).done(function (response) {
+                $('#myModal').modal('toggle');
+                toastr.success(`Your application has been successfully submitted for processing, please wait
+                email the result of processing!`);
+                clearFormInputs($("form[name='reservation-form']"));
+            }).fail(function (xhr) {
+                toastr.error("Errors occurred while sending data!");
+            });
         }
     });
 }
@@ -316,8 +371,13 @@ function initValidator() {
             toastr.success("Congratulations! You are successfully authorized.");
             localStorage.setItem("Token", response.Token);
             localStorage.setItem("ExpirationTime", response.ExpirationTime);
+            localStorage.setItem("Role", response.Role);
             setTimeout(function () {
-                window.location = "http://localhost:3000/index.html";
+                if (response.Role === 'Admin') {
+                    window.location = "http://localhost:3000/admin/admin.html";
+                } else {
+                    window.location = "http://localhost:3000/index.html";
+                }
                 clearFormInputs($("form[name='signIn']"));
             }, 500);
         }).fail(function (xhr) {
@@ -536,6 +596,12 @@ function initStarRating() {
                     $('#' + response[i].slideName).attr('data-rating', response[i].ratingValue);
                 }
                 return $(".starrr").starrr();
+            })
+            .fail(function (e) {
+                for (var i = 0; i < slideIds.length; i++) {
+                    $('#' + slideIds[i].slideName).attr('data-rating', i + 1);
+                }
+                return $(".starrr").starrr();
             });
     });
 
@@ -591,5 +657,6 @@ function removeClassOnResize() {
 function logout() {
     localStorage.removeItem("Token");
     localStorage.removeItem("ExpirationTime");
+    localStorage.removeItem("Role");
     window.location = "http://localhost:3000/Account.html";
 }
