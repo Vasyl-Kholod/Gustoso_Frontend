@@ -3,6 +3,7 @@ localStorage = window.localStorage;
 calendarIndex = 0;
 selectedDate = null;
 selectedTable = null;
+reservationList = [];
 
 $(document).ready(function () {
     toggleAccountForms();
@@ -15,10 +16,13 @@ $(document).ready(function () {
     initSlider();
     initEvents();
     initHanddleClickByDay();
+    getActiveReservation();
 
     $('.timepicker-input').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });
     $('i.icon-chevron-left').addClass('not-active');
-    selectedDate = +$('.today').addClass('active').text();
+    selectedDate = $('#calendar_header > h1').text().split(' ').reverse();
+    selectedDate.push(+$('.today').addClass('active').text());
+    convertStringToIntMonth(selectedDate[1]);
 
     $('#calendar_header > i').click(function (e) {
         if ($(this).hasClass('icon-chevron-right')) {
@@ -43,6 +47,15 @@ $(document).ready(function () {
 
     $('g.reservation-table').mouseover(function (event) {
         var tooltipContainer = document.getElementById('tooltip-container');
+        const resList = reservationList.filter(r => r.tableNumber === +event.currentTarget.getAttribute('number-table'));
+        if (resList.length) {
+            $('#tooltip-container > h4').text('Reserved');
+            resList.forEach(element => {
+                $('#tooltip-container > div:last-child').append('<div>' + moment(element.dateOfReservation).format('HH:mm') + '</div>');                
+            });       
+        } else {
+            $('#tooltip-container > h4').text('Not reserved');
+        }
         tooltipContainer.style.display = 'inline-block';
         var left, right, top, arrowLeft, arrowTop;
         var element = event.currentTarget.getBoundingClientRect();
@@ -79,6 +92,7 @@ $(document).ready(function () {
     $('g.reservation-table').mouseout(function (event) {
         var tooltipContainer = document.getElementById('tooltip-container');
         tooltipContainer.style.display = 'none';
+        $('#tooltip-container > div:last-child').empty();
     });
 
     $('g.reservation-table').click(function (e) {
@@ -169,6 +183,10 @@ function isAuthorization() {
     if (window.location.href !== accountHref) {
         if (!localStorage.getItem("Token")) {
             logout();
+        }
+    } else if (window.location.href === accountHref) {
+        if (localStorage.getItem("Token")) {
+            window.location = "http://localhost:3000/index.html";
         }
     }
 }
@@ -640,6 +658,47 @@ function initStarRating() {
                 });
         });
     }
+}
+
+function getActiveReservation() {
+    if(window.location.href === 'http://localhost:3000/Reservation.html') {
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:54334/api/Reservation/GetActiveReservation",
+            "method": "GET",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "beforeSend": function (xhr) {
+                var Token = localStorage.getItem("Token");
+                xhr.setRequestHeader("Authorization", "Bearer " + Token);
+            }
+        }
+        $.ajax(settings).done(function (response) {
+            reservationList = response;
+            disableTable(reservationList);
+        }).fail(function (xhr) {
+            toastr.error("Errors occurred while sending data!");
+        });
+        var request = setInterval(() => {
+            $.ajax(settings).done(function (response) {
+                reservationList = response;
+                disableTable(reservationList);                
+            }).fail(function (xhr) {
+                toastr.error("Errors occurred while sending data!");
+                clearInterval(request);
+            });
+        }, 10000)   
+    }
+}
+
+function disableTable(list) {
+    $('g.reservation-table').removeClass('reserved');
+    list.forEach(el => {
+        $('g.reservation-table[number-table='+ el.tableNumber +']').addClass('reserved');
+    });
 }
 
 function removeClassOnResize() {

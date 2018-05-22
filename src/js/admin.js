@@ -246,10 +246,10 @@ $(document).ready(function () {
             $('.reservation-table > ul').empty();
             initReservationTable(response);
         }).fail(function (xhr) {
-            // toastr.error("Errors occurred while sending data!");
-            // clearInterval(request);
+            toastr.error("Errors occurred while sending data!");
+            clearInterval(request);
         });
-    }, 1000)
+    }, 10000)
 });
 
 function logout() {
@@ -327,7 +327,7 @@ function isAuthorization() {
         if (!localStorage.getItem("Token") || !localStorage.getItem("Role")) {
             logout();
         } else if (localStorage.getItem("Role") && localStorage.getItem("Role") !== "Admin") {
-            logout();
+            window.location = "http://localhost:3000/index.html";
         }
     }
 }
