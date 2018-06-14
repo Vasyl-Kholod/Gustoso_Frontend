@@ -113,7 +113,7 @@ gulp.task("fonts", function () {
         "src/Fonts/**/*.ttf",
         "node_modules/font-awesome/fonts/**"
     ])
-        .pipe(gulp.dest("dist/Fonts"));
+        .pipe(gulp.dest("dist/fonts"));
 });
 
 gulp.task("html:own", function () {
@@ -175,8 +175,8 @@ gulp.task("watch", ["build"], function () {
     gulp.watch("src/data.json", ["json"]);
     gulp.watch("src/data.json", ["json"]).on("change", sync.reload);
 
-    gulp.watch("src/Fonts/**/*.ttf", ["fonts"]);
-    gulp.watch("dist/Fonts/**/*.ttf", ["fonts"]).on("change", sync.reload);
+    gulp.watch("src/fonts/**/*.ttf", ["fonts"]);
+    gulp.watch("dist/fonts/**/*.ttf", ["fonts"]).on("change", sync.reload);
 
     gulp.watch("src/Images/**/*.{png,jpg,gif,jpeg,svg}", ["images"]);
     gulp.watch("dist/Images/**/*.{png,jpg,gif,jpeg,svg}", ["images"]).on("change", sync.reload);

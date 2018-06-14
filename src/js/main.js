@@ -5,6 +5,9 @@ selectedDate = null;
 selectedTable = null;
 reservationList = [];
 
+window.url = '';
+// window.url = 'http://localhost:3000';
+
 $(document).ready(function () {
     toggleAccountForms();
     removeClassOnResize();
@@ -160,6 +163,7 @@ function initHanddleClickByDay() {
 }
 
 function convertStringToIntMonth(month) {
+    if (typeof month !== 'string') return;
     switch (month.toLowerCase()) {
         case "january": selectedDate[1] = 1; break;
         case "fabruary": selectedDate[1] = 2; break;
@@ -179,14 +183,14 @@ function convertStringToIntMonth(month) {
 }
 
 function isAuthorization() {
-    var accountHref = "http://localhost:3000/Account.html";
-    if (window.location.href !== accountHref) {
+    var accountHref = "/Account.html";
+    if (window.location.href.indexOf(accountHref) === -1) {
         if (!localStorage.getItem("Token")) {
             logout();
         }
-    } else if (window.location.href === accountHref) {
+    } else if (window.location.href.indexOf(accountHref) !== -1) {
         if (localStorage.getItem("Token")) {
-            window.location = "http://localhost:3000/index.html";
+            window.location = "/index.html";
         }
     }
 }
@@ -258,7 +262,7 @@ function initReservationFormValidator() {
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://localhost:54334/api/Reservation",
+                "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Reservation",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json",
@@ -277,6 +281,9 @@ function initReservationFormValidator() {
                 clearFormInputs($("form[name='reservation-form']"));
             }).fail(function (xhr) {
                 toastr.error("Errors occurred while sending data!");
+                if (xhr.status === 401) {
+                    logout();
+                }
             });
         }
     });
@@ -324,7 +331,7 @@ function initValidator() {
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://localhost:54334/api/ContactUs",
+                "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/ContactUs",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json",
@@ -337,10 +344,14 @@ function initValidator() {
                 }
             }
             $.ajax(settings).done(function (response) {
+                sendObjToNodeServer(response);
                 toastr.success("Message sent successfully.");
                 clearFormInputs($("form[name='contact-form']"));
             }).fail(function (xhr) {
                 toastr.error("Errors occurred while sending data!");
+                if (xhr.status === 401) {
+                    logout();
+                }
             });
         }
     });
@@ -351,7 +362,7 @@ function initValidator() {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:54334/api/Account/Registration",
+            "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Account/Registration",
             "method": "POST",
             "headers": {
                 "content-type": "application/json",
@@ -366,8 +377,10 @@ function initValidator() {
             if (xhr.status === 400) {
                 toastr.error("Registration failed! Please enter valid information.");
                 return;
+            } else if (xhr.status === 401) {
+                logout();
             }
-            toastr.error(xhr.responseText);
+            toastr.error(xhr.responseText);            
         });
     });
 
@@ -377,7 +390,7 @@ function initValidator() {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:54334/api/Account/Token",
+            "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Account/Token",
             "method": "POST",
             "headers": {
                 "content-type": "application/json",
@@ -392,9 +405,9 @@ function initValidator() {
             localStorage.setItem("Role", response.Role);
             setTimeout(function () {
                 if (response.Role === 'Admin') {
-                    window.location = "http://localhost:3000/admin/admin.html";
+                    window.location = "/admin/admin.html";
                 } else {
-                    window.location = "http://localhost:3000/index.html";
+                    window.location = "/index.html";
                 }
                 clearFormInputs($("form[name='signIn']"));
             }, 500);
@@ -402,6 +415,8 @@ function initValidator() {
             if (xhr.status === 404) {
                 toastr.error(xhr.responseText);
                 return;
+            } else if (xhr.status === 401) {
+                logout();
             }
             toastr.error("Error occured during authorization!");
         });
@@ -476,7 +491,7 @@ function initEvents() {
 function initDataTable() {
     $("#menu-table").DataTable({
         ajax: {
-            url: "http://localhost:54334/api/PriceList/GetAllPrices",
+            url: "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/PriceList/GetAllPrices",
             dataSrc: "",
             beforeSend: function (xhr) {
                 var Token = localStorage.getItem("Token");
@@ -597,7 +612,7 @@ function initStarRating() {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:54334/api/Rating",
+            "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Rating",
             "method": "GET",
             "headers": {
                 "content-type": "application/json",
@@ -616,6 +631,9 @@ function initStarRating() {
                 return $(".starrr").starrr();
             })
             .fail(function (e) {
+                if (xhr.status === 401) {
+                    logout();
+                }
                 for (var i = 0; i < slideIds.length; i++) {
                     $('#' + slideIds[i].slideName).attr('data-rating', i + 1);
                 }
@@ -638,7 +656,7 @@ function initStarRating() {
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://localhost:54334/api/Rating",
+                "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Rating",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json",
@@ -655,17 +673,20 @@ function initStarRating() {
                     toastr.success(response);
                 }).fail(function (response) {
                     toastr.error(response.statusText);
+                    if (xhr.status === 401) {
+                        logout();
+                    }
                 });
         });
     }
 }
 
 function getActiveReservation() {
-    if(window.location.href === 'http://localhost:3000/Reservation.html') {
+    if(window.location.href === '/Reservation.html') {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:54334/api/Reservation/GetActiveReservation",
+            "url": "http://gustoso-gustoso-bakery.a3c1.starter-us-west-1.openshiftapps.com/api/Reservation/GetActiveReservation",
             "method": "GET",
             "headers": {
                 "content-type": "application/json",
@@ -681,6 +702,9 @@ function getActiveReservation() {
             disableTable(reservationList);
         }).fail(function (xhr) {
             toastr.error("Errors occurred while sending data!");
+            if (xhr.status === 401) {
+                logout();
+            }
         });
         var request = setInterval(() => {
             $.ajax(settings).done(function (response) {
@@ -689,6 +713,9 @@ function getActiveReservation() {
             }).fail(function (xhr) {
                 toastr.error("Errors occurred while sending data!");
                 clearInterval(request);
+                if (xhr.status === 401) {
+                    logout();
+                }
             });
         }, 10000)   
     }
@@ -717,5 +744,16 @@ function logout() {
     localStorage.removeItem("Token");
     localStorage.removeItem("ExpirationTime");
     localStorage.removeItem("Role");
-    window.location = "http://localhost:3000/Account.html";
+    window.location = "/Account.html";
+}
+
+function sendObjToNodeServer(obj) {
+    var settings = {
+        "url": "https://gustoso-backery.herokuapp.com/send-email",
+        "method": "POST",
+        "data": obj,
+    }
+    $.ajax(settings).done(function (response) {
+    }).fail(function (xhr) {
+    });
 }
